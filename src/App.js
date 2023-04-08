@@ -30,8 +30,8 @@ class Content extends Component {
   render() {
     return (
       <article>
-        <h2>HTML</h2>
-        HTML is Hyper Text Markup Language.
+        <h2>{this.props.title}</h2>
+        {this.props.desc}
       </article>
     );
   }
@@ -43,8 +43,9 @@ class App extends Component {
     return (
       <div className="App">
         <Subject title="WEB" sub="World Wide Web !"></Subject>
+        <Subject title="React" sub="For UI"></Subject>
         <TOC></TOC>
-        <Content></Content>
+        <Content title="HTML" desc="HTML is Hyper Text Markup Language."></Content>
       </div>
     );
   }
