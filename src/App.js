@@ -19,8 +19,7 @@ class App extends Component {
       contents:[
         {id:1, title:'HTML', desc:'HTML is for information'},
         {id:2, title:'CSS', desc:'CSS is for design'},
-        {id:3, title:'JavaScript', desc:'JavaScript is for interactive'},
-
+        {id:3, title:'JavaScript', desc:'JavaScript is for interactive'}        
       ]
     }
   }
@@ -54,6 +53,7 @@ class App extends Component {
         this.setState({
           contents:_contents
         });
+        console.log(_title, _desc);
       }.bind(this)}></CreateContent>
     }
     return (
@@ -66,11 +66,12 @@ class App extends Component {
           }.bind(this)}
         >
         </Subject>
-        <TOC onChangePage={function(id){
-          this.setState({
-            mode:'read',
-            selected_content_id:Number(id)
-          });
+        <TOC 
+          onChangePage={function(id){
+            this.setState({
+              mode:'read',
+              selected_content_id:Number(id)
+            });
         }.bind(this)} data={this.state.contents}></TOC>
         <Control onChangeMode={function(_mode){
           this.setState({
