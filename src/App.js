@@ -13,7 +13,7 @@ class App extends Component {
     super(props);
     this.max_content_id = 3;
     this.state = {
-      mode:'read',
+      mode:'welcome',
       selected_content_id:2,
       subject:{title:'WEB', sub:'World Wide Web !'},
       welcome:{title:'Welcome', desc:'Hello, React !!'},
@@ -47,12 +47,10 @@ class App extends Component {
       _article = <ReadContent title={_content.title} desc={_content.desc}></ReadContent>
     } else if (this.state.mode === 'create') {
       _article = <CreateContent onSubmit={function(_title, _desc){
-        // add content to this.state.contents
         this.max_content_id = this.max_content_id + 1
-        // this.state.contents.push(
-        //   {id:this.max_content_id, title:_title, desc:_desc}
-        // );
-        var _contents = this.state.contents.concat(
+        
+        var _contents = Array.from(this.state.contents);
+        _contents.push(
           {id:this.max_content_id, title:_title, desc:_desc}
         )
         this.setState({
@@ -62,15 +60,22 @@ class App extends Component {
       }.bind(this)}></CreateContent>
     } else if (this.state.mode === 'update') {
       _content = this.getReadContent();
-      _article = <UpdateContent data={_content} onSubmit={function(_title, _desc){
-        this.max_content_id = this.max_content_id + 1
-  
-        var _contents = this.state.contents.concat(
-          {id:this.max_content_id, title:_title, desc:_desc}
-        )
-        this.setState({
-          contents:_contents
-        });
+      _article = <UpdateContent data={_content} onSubmit={
+        function(_id, _title, _desc){
+          var _contents = Array.from(this.state.contents);
+          var i = 0;
+          while(i < _contents.length){
+            if(_contents[i].id === _id){
+              _contents[i] = {id:_id, title:_title, desc:_desc};
+              break;
+            }
+            i = i + 1;
+          }
+          this.setState({
+            contents:_contents,
+            mode:'read',
+            selected_content_id:this.max_content_id
+          });
         console.log(_title, _desc);
       }.bind(this)}></UpdateContent>
     }
@@ -96,6 +101,24 @@ class App extends Component {
             });
         }.bind(this)} data={this.state.contents}></TOC>
         <Control onChangeMode={function(_mode){
+          if(_mode === 'delete'){
+            if(window.confirm('정말 삭제하시겠습니까?')){
+              var _contents = Array.from(this.state.contents);
+              var i = 0;
+              while(i < _contents.length){
+                if(_contents[i].id === this.state.selected_content_id){
+                  _contents.splice(i,1);
+                  break;
+                }
+              i = i + 1;
+              }
+              this.setState({
+                mode:'welcome',
+                contents:_contents
+              });
+              alert('삭제가 완료되었습니다.')
+            }
+          }
           this.setState({
             mode:_mode
           });
