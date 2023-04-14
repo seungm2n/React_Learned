@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import TOC from "./components/TOC";
-import Menu from './components/Menu';
-import Board from './components/Board';
 import ReadContent from "./components/ReadContent";
 import Subject from "./components/Subject";
 import Control from "./components/Control";
@@ -11,7 +9,9 @@ import UpdateContent from './components/UpdateContent';
 import './App.css';
 
 class App extends Component {
+
   constructor(props) {
+  
     super(props);
     this.max_content_id = 3;
     this.state = {
@@ -19,7 +19,6 @@ class App extends Component {
       selected_content_id:2,
       subject:{title:'WEB', sub:'World Wide Web !'},
       welcome:{title:'Welcome', desc:'Hello, React !!'},
-      menu:{name:'메뉴1'},
       contents:[
         {id:1, title:'HTML', desc:'HTML is for information'},
         {id:2, title:'CSS', desc:'CSS is for design'},
@@ -84,21 +83,9 @@ class App extends Component {
     }
     return _article;
   }
-  changeMenu = (menuIndex) => {
-    this.setState({menu:menuIndex});
-  }
   render() {
     return (
       <div className="App">
-        <Menu
-          name={this.state.menu.name}
-          changeMenu={function(menuIndex){
-            this.setState({
-              menu:menuIndex
-            });
-          }.bind(this)}
-        >
-        </Menu>
         <Subject 
           title={this.state.subject.title} 
           sub={this.state.subject.sub}
